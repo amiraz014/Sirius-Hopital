@@ -22,8 +22,8 @@ public class XMartCityService {
     private final Logger logger = LoggerFactory.getLogger(LoggingLabel);
 
     private enum Queries {
-        SELECT_ALL_STUDENTS("SELECT t.id, t.nom, t.prenom, t.adresse, t.emploi, t.email, t.birthdate, t.taille, t.startingdate FROM \"public\".employee t"),
-        INSERT_STUDENT("INSERT into \"public\".employee (\"nom\", \"prenom\", \"adresse\", \"emploi\", \"email\", \"birthdate\", \"taille\", \"startingdate\") values (?, ?, ?, ?, ?, ?, ?, ?)");
+        SELECT_ALL_STUDENTS("SELECT t.name, t.firstname, t.group FROM \"public\".students t"),
+        INSERT_STUDENT("INSERT into \"public\".students (\"name\", \"firstname\", \"group\") values (?, ?, ?)");
 
         private final String query;
 
@@ -67,35 +67,22 @@ public class XMartCityService {
                 System.out.println(listStudents);
                 System.out.println("====================================================");
 
-
                 return new Response(request.getRequestId(), mapper.writeValueAsString(listStudents));
             } else if (request.getRequestOrder().equals("INSERT_STUDENT")) {
-                final PreparedStatement preparedStatement = connection.prepareStatement(Queries.INSERT_STUDENT.query,Statement.RETURN_GENERATED_KEYS);
+                final PreparedStatement preparedStatement = connection.prepareStatement(Queries.INSERT_STUDENT.query);
                 ObjectMapper mapper = new ObjectMapper();
                 Student student = mapper.readValue(request.getRequestBody(), Student.class);
-                int line =student.build(preparedStatement).executeUpdate();
-                Response response = new Response();
-
-                // for(int i =0; i<=line; i++ ){
-
-                //     //  ResultSet idRequest=preparedStatement.getGeneratedKeys();
-                //     //     while(idRequest.next()){
-                //     //         int id= idRequest.getInt(1);
-
-                //         }
-                // }
-               
-                response.setResponseBody("{\"employee_id\": " + line + "}");                
-                response.setRequestId(request.getRequestId());
-                return response;
+                int row = student.build(preparedStatement).executeUpdate();
+                return new Response(request.getRequestId(), "{\"student_id\": " + row + "}");
             }
 
         } catch (Exception e) {
             System.out.println("oooooooooooooooooooooooooooooo");
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             System.out.println("oooooooooooooooooooooooooooooo");
 
         }
+        System.out.println("eroooooooooooooooooooooo");
         return null;
 
     }

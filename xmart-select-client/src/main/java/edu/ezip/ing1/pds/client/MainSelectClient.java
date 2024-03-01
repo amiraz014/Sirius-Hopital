@@ -58,9 +58,9 @@ public class MainSelectClient {
             logger.debug("Thread {} complete.", joinedClientRequest.getThreadName());
             final Students students = (Students) joinedClientRequest.getResult();
             final AsciiTable asciiTable = new AsciiTable();
-            for (final Student student : students.getStudents()) {
+            for (final Student student : students.getStudents()) {// student est null
                 asciiTable.addRule();
-                asciiTable.addRow( student.getNom(), student.getPrenom(), student.getAdresse(), student.getEmail(), student.getEmploi(), student.getBirthdate(), student.getTaille(), student.getStartingdate());
+                asciiTable.addRow(student.getFirstname(), student.getName(), student.getGroup());
             }
             asciiTable.addRule();
             logger.debug("\n{}\n", asciiTable.render());

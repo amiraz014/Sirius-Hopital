@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.*;
 
-public class MainInsertClient { 
+public class MainInsertClient {
 
     private final static String LoggingLabel = "I n s e r t e r - C l i e n t";
     private final static Logger logger = LoggerFactory.getLogger(LoggingLabel);
@@ -29,7 +29,7 @@ public class MainInsertClient {
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
-//
+
         final Students guys = ConfigLoader.loadConfig(Students.class, studentsToBeInserted);
         final NetworkConfig networkConfig =  ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.trace("Students loaded : {}", guys.toString());
@@ -58,9 +58,9 @@ public class MainInsertClient {
             final ClientRequest clientRequest = clientRequests.pop();
             clientRequest.join();
             final Student guy = (Student)clientRequest.getInfo();
-            logger.debug("Thread {} complete :  {} {} {} {} {} {} {} {}  --> {}",
+            logger.debug("Thread {} complete : {} {} {} --> {}",
                                     clientRequest.getThreadName(),
-                                     guy.getNom(), guy.getPrenom(), guy.getAdresse(), guy.getEmploi(), guy.getEmail(), guy.getBirthdate(), guy.getTaille(), guy.getStartingdate(),
+                                    guy.getFirstname(), guy.getName(), guy.getGroup(),
                                     clientRequest.getResult());
         }
     }
