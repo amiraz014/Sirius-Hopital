@@ -1,13 +1,11 @@
 students :
-  - name : "AGRouH"
-    firstname: "Hiba"
-    group: ING1
-  - name: "ADILI"
-    firstname: "Anas"
-    group: ING1
-  - name : "ERRAI"
-    firstname : "Aya"
-    group: ING1
-  - name : "BELKADHI"
-    firstname : "aziz"
-    group: ING1
+  - nom: "ADJAZ"
+    prenom: "Amir"
+    adresse: "14 Rue Tapis-Vert"
+    emploi: "etudiant"
+    email: "amirous@epital.com"
+    birthdate: "2121-09-21 10:10:10"
+    taille: 1.80 
+    startingdate : "2121-09-21 10:10:10"
+
+  

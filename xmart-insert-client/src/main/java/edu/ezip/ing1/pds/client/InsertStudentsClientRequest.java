@@ -22,7 +22,7 @@ public class InsertStudentsClientRequest extends ClientRequest<Student, String> 
     public String readResult(String body) throws IOException {
         final ObjectMapper mapper = new ObjectMapper();
         final Map<String, Integer> studentIdMap = mapper.readValue(body, Map.class);
-        final String result  = studentIdMap.get("student_id").toString();
+        final String result  = studentIdMap.get("employee_id").toString();
         return result;
     }
 }

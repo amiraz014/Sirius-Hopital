@@ -77,7 +77,7 @@ public abstract class ClientRequest<N,S> implements Runnable {
 
             final ObjectMapper mapper = new ObjectMapper();
             final Response response = mapper.readValue(inputData, Response.class);
-            logger.debug("Response = {}", response.toString());
+            logger.debug("Response = {}", response.toString());// response est nulle
 
             result = readResult(response.responseBody);
 

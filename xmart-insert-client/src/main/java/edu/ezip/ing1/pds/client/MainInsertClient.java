@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.*;
 
-public class MainInsertClient {
+public class MainInsertClient { 
 
     private final static String LoggingLabel = "I n s e r t e r - C l i e n t";
     private final static Logger logger = LoggerFactory.getLogger(LoggingLabel);
@@ -51,17 +51,20 @@ public class MainInsertClient {
             final InsertStudentsClientRequest clientRequest = new InsertStudentsClientRequest (
                                                                         networkConfig,
                                                                         birthdate++, request, guy, requestBytes);
-            clientRequests.push(clientRequest);
+           System.out.println("0000000000000000000000000000000000000000000000000000000000");
+                                                                        clientRequests.push(clientRequest);
         }
 
         while (!clientRequests.isEmpty()) {
-            final ClientRequest clientRequest = clientRequests.pop();
+            final  ClientRequest clientRequest = clientRequests.pop();
             clientRequest.join();
             final Student guy = (Student)clientRequest.getInfo();
-            logger.debug("Thread {} complete : {} {} {} --> {}",
+            logger.debug("Thread {} complete :  {} {} {} {} {} {} {} {}  --> {}",
                                     clientRequest.getThreadName(),
-                                    guy.getFirstname(), guy.getName(), guy.getGroup(),
+                                     guy.getNom(), guy.getPrenom(), guy.getAdresse(), guy.getEmploi(), guy.getEmail(), guy.getBirthdate(), guy.getTaille(), guy.getStartingdate(),
                                     clientRequest.getResult());
+                                    System.out.println("00000000000000000000000000000000000000000000000000000000000000000000");
         }
+       System.out.println("yuyuyuyuyuuyuyu "+clientRequests);
     }
 }

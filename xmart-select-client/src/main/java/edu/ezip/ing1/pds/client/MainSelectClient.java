@@ -33,7 +33,7 @@ public class MainSelectClient {
     private static final String requestOrder = "SELECT_ALL_STUDENTS";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
 
-    public static void main(String[] args) throws IOException, InterruptedException, SQLException {
+    public static Students main() throws IOException, InterruptedException, SQLException {
 
         final NetworkConfig networkConfig = ConfigLoader.loadConfig(NetworkConfig.class, networkConfigFile);
         logger.debug("Load Network config file : {}", networkConfig.toString());
@@ -52,18 +52,24 @@ public class MainSelectClient {
                                                                     birthdate++, request, null, requestBytes);
         clientRequests.push(clientRequest);
 
-        while (!clientRequests.isEmpty()) {
+        //while (!clientRequests.isEmpty()) {
             final ClientRequest joinedClientRequest = clientRequests.pop();
             joinedClientRequest.join();
             logger.debug("Thread {} complete.", joinedClientRequest.getThreadName());
             final Students students = (Students) joinedClientRequest.getResult();
             final AsciiTable asciiTable = new AsciiTable();
-            for (final Student student : students.getStudents()) {// student est null
-                asciiTable.addRule();
-                asciiTable.addRow(student.getFirstname(), student.getName(), student.getGroup());
+            for (final Student student : students.getStudents()) {
+              //  asciiTable.addRule();
+               asciiTable.addRow( student.getNom(), student.getPrenom(), student.getAdresse(), student.getEmail(), student.getEmploi(), student.getBirthdate(), student.getTaille(), student.getStartingdate());
+               System.out.println(student.getNom());
+                
             }
-            asciiTable.addRule();
+            asciiTable.render();
+            
+           // asciiTable.addRule();
             logger.debug("\n{}\n", asciiTable.render());
-        }
+            
+       // }
+        return students;
     }
 }

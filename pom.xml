@@ -17,6 +17,7 @@
         <module>xmart-select-client</module>
         <module>logging-utils</module>
         <module>rdbms-connection-pool</module>
+        <module>xmart-city-frontend</module>
     </modules>
 
 
