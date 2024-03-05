@@ -25,7 +25,7 @@ public class MainInsertClient {
     private final static String studentsToBeInserted = "students-to-be-inserted.yaml";
     private final static String networkConfigFile = "network.yaml";
     private static final String threadName = "inserter-client";
-    private static final String requestOrder = "INSERT_STUDENT";
+    private static final String requestOrder = "INSERT_EMPLOYEE";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
 
     public static void main(String[] args) throws IOException, InterruptedException, SQLException {
@@ -59,9 +59,9 @@ public class MainInsertClient {
             final  ClientRequest clientRequest = clientRequests.pop();
             clientRequest.join();
             final Student guy = (Student)clientRequest.getInfo();
-            logger.debug("Thread {} complete :  {} {} {} {} {} {} {} {}  --> {}",
+            logger.debug("Thread {} complete :  {} {} {} {} {} {} {}   --> {}",
                                     clientRequest.getThreadName(),
-                                     guy.getNom(), guy.getPrenom(), guy.getAdresse(), guy.getEmploi(), guy.getEmail(), guy.getBirthdate(), guy.getTaille(), guy.getStartingdate(),
+                                     guy.getNom(), guy.getPrenom(), guy.getAdresse(), guy.getEmail(), guy.getBirthdate(), guy.getTaille(), guy.getStartingdate(),
                                     clientRequest.getResult());
                                     System.out.println("00000000000000000000000000000000000000000000000000000000000000000000");
         }

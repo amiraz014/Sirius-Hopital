@@ -2,7 +2,6 @@ students :
   - nom: "ADJAZ"
     prenom: "Amir"
     adresse: "14 Rue Tapis-Vert"
-    emploi: "etudiant"
     email: "amirous@epital.com"
     birthdate: "2121-09-21 10:10:10"
     taille: 1.80 

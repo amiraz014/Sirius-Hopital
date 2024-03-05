@@ -9,11 +9,11 @@ import java.sql.*;
 
 @JsonRootName(value = "student")
 public class Student {
-    private  Integer id ;
+    private  Integer id_employee ;
     private  String nom ;
     private  String prenom ;
     private  String adresse ;
-    private  String emploi ;
+    private  Integer id_profession ;
     private  String email ;
     private  String birthdate ;
     private  Double taille ;
@@ -23,15 +23,15 @@ public class Student {
     }
     public final Student build(final ResultSet resultSet)
             throws SQLException, NoSuchFieldException, IllegalAccessException {
-        setFieldsFromResulset(resultSet, "id", "nom","prenom", "adresse", "emploi", "email", "birthdate", "taille", "startingdate");
+        setFieldsFromResulset(resultSet, "id_employee", "nom","prenom", "adresse",  "email", "birthdate", "taille", "startingdate", "id_profession");
         return this;
     }
     public final PreparedStatement build(PreparedStatement preparedStatement)
             throws SQLException, NoSuchFieldException, IllegalAccessException {
-        return buildPreparedStatement(preparedStatement,  nom, prenom, adresse, emploi, email);
+        return buildPreparedStatement(preparedStatement,  nom, prenom, adresse, email);
     }
-    public Student(Integer id, String nom, String prenom, String adresse, String email, String birthdate, Double taille, String startingdate ) {
-        this.id = id;
+    public Student(Integer id_employee, String nom, String prenom, String adresse, String email, String birthdate, Double taille, String startingdate, Integer id_profession ) {
+        this.id_employee = id_employee;
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
@@ -39,11 +39,13 @@ public class Student {
         this.birthdate = birthdate;
         this.taille = taille;
         this.startingdate = startingdate;
+        this.id_profession = id_profession;
     }
 
-    public Integer getId() {
-        return id;
-    }
+   public Integer getId_employee() {
+       return id_employee;
+   }
+   
     public String getNom() {
         return nom;
     }
@@ -52,9 +54,6 @@ public class Student {
     }
     public String getAdresse() {
         return adresse;
-    }
-    public String getEmploi() {
-        return emploi;
     }
     public String getEmail() {
         return email;
@@ -68,10 +67,13 @@ public class Student {
     public String getStartingdate() {
         return startingdate;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getId_profession() {
+        return id_profession;
     }
+
+   public void setId_employee(Integer id_employee) {
+       this.id_employee = id_employee;
+   }
     public void setNom(String nom) {
         this.nom = nom;
     }
@@ -80,9 +82,6 @@ public class Student {
     }
     public void setAdresse(String adresse) {
         this.adresse = adresse;
-    }
-    public void setEmploi(String emploi) {
-        this.emploi = emploi;
     }
     public void setEmail(String email) {
         this.email = email;
@@ -96,12 +95,15 @@ public class Student {
     public void setStartingdate(String startingdate) {
         this.startingdate = startingdate;
     }
+    public void setId_profession(Integer id_profession) {
+        this.id_profession = id_profession;
+    }
     // field = 
 
     private void setFieldsFromResulset(final ResultSet resultSet, final String ...fieldNames )
             throws NoSuchFieldException, SQLException, IllegalAccessException {
         for(final String fieldName :  fieldNames ) {
-                if (fieldName.equals("id")){
+                if (fieldName.equals("id_employee") || fieldName.equals("id_profession")){
                     final Field field = this.getClass().getDeclaredField(fieldName);
                     field.set(this, resultSet.getObject(fieldName, Integer.class));
                 } else if (fieldName.equals("taille")){
@@ -142,15 +144,15 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "id='" + id + '\'' +
+                "id_employee='" + id_employee + '\'' +
                 ", firstname='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", adresse='" + adresse + '\'' +
-                ", emploi='" + emploi + '\'' +
                 ", email='" + email + '\'' +
                 ", birthdate='" + birthdate + '\'' +
                 ", taille='" + taille + '\'' +
                 ", startingdate='" + startingdate + '\'' +
+                ", id_profession='" + id_profession + '\'' +
                 '}';
     }
 }

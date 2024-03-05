@@ -30,7 +30,7 @@ public class MainSelectClient {
     private final static String studentsToBeInserted = "students-to-be-inserted.yaml";
     private final static String networkConfigFile = "network.yaml";
     private static final String threadName = "inserter-client";
-    private static final String requestOrder = "SELECT_ALL_STUDENTS";
+    private static final String requestOrder = "SELECT_ALL_EMPLOYEES";
     private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
 
     public static Students main() throws IOException, InterruptedException, SQLException {
@@ -60,7 +60,7 @@ public class MainSelectClient {
             final AsciiTable asciiTable = new AsciiTable();
             for (final Student student : students.getStudents()) {
               //  asciiTable.addRule();
-               asciiTable.addRow( student.getNom(), student.getPrenom(), student.getAdresse(), student.getEmail(), student.getEmploi(), student.getBirthdate(), student.getTaille(), student.getStartingdate());
+               asciiTable.addRow( student.getId_employee(), student.getNom(), student.getPrenom(), student.getAdresse(), student.getEmail(), student.getBirthdate(), student.getTaille(), student.getStartingdate(), student.getId_profession());
                System.out.println(student.getNom());
                 
             }

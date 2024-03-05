@@ -21,6 +21,7 @@ public class Main {
     }
 }
     class MainFrame extends JFrame{
+        public JPanel pButton ;
         MainFrame (){
             //---------partie fenetre-------------------------
             super("epital-employee-data");
@@ -31,7 +32,7 @@ public class Main {
             //-------------------------------------------------
             //--------PartiePrincipale-------------------------
             JPanel ptitle = new JPanel();
-            JPanel pButton = new JPanel();
+           pButton = new JPanel();
             ptitle.setBackground(Color.cyan);
             pButton.setBackground(Color.white);
             JLabel lp = new JLabel("EPITAL");
@@ -42,9 +43,13 @@ public class Main {
             
             JButton b2 = new JButton("select");
             b2.setContentAreaFilled(false);
+
+            JButton b4 = new JButton("Connect");
+            b4.setContentAreaFilled(false);
             ptitle.add(lp);
             pButton.add(b1);
             pButton.add(b2);
+            pButton.add(b4);
             getContentPane().add(ptitle, BorderLayout.NORTH);
             getContentPane().add(pButton, BorderLayout.CENTER);
         //----------------------------------------------------
@@ -82,7 +87,18 @@ public class Main {
                 
             });
         //----------------------------------------------------------
+      
+        //-----------------Connect Platform------------------------
+            b4.addActionListener(new ActionListener() {
 
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                 new ConnectPanel();
+                }
+                
+            });
+
+        //--------------------------------------------------------
 
         //--------Actualiser------------------------------------
         validate();

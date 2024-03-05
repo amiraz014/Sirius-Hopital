@@ -32,7 +32,7 @@ private final static Logger logger = LoggerFactory.getLogger(LoggingLabel);
 private final static String studentsToBeInserted = "students-to-be-inserted.yaml";
 private final static String networkConfigFile = "network.yaml";
 private static final String threadName = "inserter-client";
-private static final String requestOrder = "INSERT_STUDENT";
+private static final String requestOrder = "INSERT_EMPLOYEE";
 private static final Deque<ClientRequest> clientRequests = new ArrayDeque<ClientRequest>();
     public InsertPanel() throws IOException, InterruptedException {
 
@@ -67,15 +67,15 @@ private static final Deque<ClientRequest> clientRequests = new ArrayDeque<Client
        
     
         DefaultTableModel model = new DefaultTableModel();
-        model.addColumn("id");
+        model.addColumn("idE");
         model.addColumn("nom");
         model.addColumn("prenom");
         model.addColumn("adresse");
-        model.addColumn("emploi");
         model.addColumn("email");
         model.addColumn("birthdate");
         model.addColumn("taille");
         model.addColumn("startingdate");
+        model.addColumn("idP");
 
 
         while (!clientRequests.isEmpty()) {
@@ -83,15 +83,15 @@ private static final Deque<ClientRequest> clientRequests = new ArrayDeque<Client
             clientRequest.join();
             final Student guy = (Student)clientRequest.getInfo();
             model.addRow(new Object[]{
-                guy.getId(),
+                guy.getId_employee(),
                 guy.getNom(),
                 guy.getPrenom(),
                 guy.getAdresse(),
-                guy.getEmploi(),
                 guy.getEmail(),
                 guy.getBirthdate(),
                 guy.getTaille(),
-                guy.getStartingdate()
+                guy.getStartingdate(),
+                guy.getId_profession(),
             });
         }
 

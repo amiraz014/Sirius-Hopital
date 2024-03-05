@@ -1,6 +1,9 @@
 package edu.ezip.ing1.pds.business.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.ezip.ing1.pds.business.dto.Medicament;
+import edu.ezip.ing1.pds.business.dto.Medicaments;
 import edu.ezip.ing1.pds.business.dto.Student;
 import edu.ezip.ing1.pds.business.dto.Students;
 import edu.ezip.ing1.pds.commons.Request;
@@ -22,8 +25,9 @@ public class XMartCityService {
     private final Logger logger = LoggerFactory.getLogger(LoggingLabel);
 
     private enum Queries {
-        SELECT_ALL_STUDENTS("SELECT t.id, t.nom, t.prenom, t.adresse, t.emploi, t.email, t.birthdate, t.taille, t.startingdate FROM \"public\".employee t"),
-        INSERT_STUDENT("INSERT into \"public\".employee (\"nom\", \"prenom\", \"adresse\", \"emploi\", \"email\", \"birthdate\", \"taille\", \"startingdate\") values (?, ?, ?, ?, ?, ?, ?, ?)");
+        SELECT_ALL_EMPLOYEES("SELECT t.id_employee, t.nom, t.prenom, t.adresse, t.email, t.birthdate, t.taille, t.startingdate, t.id_profession FROM \"public\".employee t"),
+        SELECT_ALL_MEDICATIONS("SELECT t.code_barre, t.nom, t.categorie FROM \"public\".medicament t"),
+        INSERT_EMPLOYEE("INSERT into \"public\".employee (\"nom\", \"prenom\", \"adresse\", \"email\", \"birthdate\", \"taille\", \"startingdate\") values (?, ?, ?, ?, ?, ?, ?)");
 
         private final String query;
 
@@ -49,9 +53,10 @@ public class XMartCityService {
             throws InvocationTargetException, IllegalAccessException, SQLException, NoSuchFieldException,
             IOException {
         try {
-            if (request.getRequestOrder().equals("SELECT_ALL_STUDENTS")) {
+            if (request.getRequestOrder().equals("SELECT_ALL_EMPLOYEES")) {
+                System.out.println("SELECT EMPLOYEES REQUEST");
 
-                final PreparedStatement preparedStatement = connection.prepareStatement(Queries.SELECT_ALL_STUDENTS.query);
+                final PreparedStatement preparedStatement = connection.prepareStatement(Queries.SELECT_ALL_EMPLOYEES.query);
                 ResultSet resultat = preparedStatement.executeQuery();
                 Students listStudents = new Students();
 
@@ -68,8 +73,9 @@ public class XMartCityService {
 
 
                 return new Response(request.getRequestId(), mapper.writeValueAsString(listStudents));
-            } else if (request.getRequestOrder().equals("INSERT_STUDENT")) {
-                final PreparedStatement preparedStatement = connection.prepareStatement(Queries.INSERT_STUDENT.query,Statement.RETURN_GENERATED_KEYS);
+
+            } else if (request.getRequestOrder().equals("INSERT_EMPLOYEE")) {
+                final PreparedStatement preparedStatement = connection.prepareStatement(Queries.INSERT_EMPLOYEE.query,Statement.RETURN_GENERATED_KEYS);
                 ObjectMapper mapper = new ObjectMapper();
                 Student student = mapper.readValue(request.getRequestBody(), Student.class);
                 int line =student.build(preparedStatement).executeUpdate();
@@ -87,6 +93,27 @@ public class XMartCityService {
                 response.setResponseBody("{\"employee_id\": " + line + "}");                
                 response.setRequestId(request.getRequestId());
                 return response;
+            }else if (request.getRequestOrder().equals("SELECT_ALL_MEDICATIONS")){
+               System.out.println("Select Medication request");
+                final PreparedStatement preparedStatement = connection.prepareStatement(Queries.SELECT_ALL_MEDICATIONS.query);
+                ResultSet resultat = preparedStatement.executeQuery();
+                Medicaments listMedicaments = new Medicaments();
+                System.out.println("00000000000000000000000000000000000000000000000000000");
+
+                while (resultat.next()) {
+                    final Medicament medicament = new Medicament().build(resultat);
+                    listMedicaments.add(medicament);
+                }
+                ObjectMapper mapper = new ObjectMapper();
+                System.out.println("yessssssssssssssssssssssssssssssssssss");
+
+                System.out.println("====================================================");
+                System.out.println(listMedicaments);
+                System.out.println("====================================================");
+
+                return new Response(request.getRequestId(), mapper.writeValueAsString(listMedicaments));
+            }else {
+                return null;
             }
 
         } catch (Exception e) {
@@ -94,7 +121,7 @@ public class XMartCityService {
             e.printStackTrace();
             System.out.println("oooooooooooooooooooooooooooooo");
 
-        }
+        } 
         return null;
 
     }
